@@ -1,0 +1,18 @@
+// $fonts: (
+//   ("Jost Bold", "Jost-Bold-700", 700, normal)
+// );
+
+// @mixin font-face($family, $file-name, $weight, $style) {
+//   @font-face {
+//     font-family: $family;
+//     src: url("../fonts/" + $file-name + ".woff2") format("woff2"),
+//       url("../fonts/" + $file-name + ".woff") format("woff");
+//     font-weight: $weight;
+//     font-style: $style;
+//     font-display: swap;
+//   }
+// }
+
+// @each $family, $file-name, $weight, $style in $fonts {
+//   @include font-face($family, $file-name, $weight, $style);
+// }

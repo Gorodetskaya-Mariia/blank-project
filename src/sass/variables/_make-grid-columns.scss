@@ -1,0 +1,123 @@
+﻿@import './media';
+@mixin make-grid-columns($columns: $grid-columns, $gutter: $grid-gutter-width, $breakpoints: $grid-breakpoints) {
+    @each $breakpoint in map-keys($breakpoints) {
+        $infix: breakpoint-infix($breakpoint, $breakpoints);
+
+        @include media-breakpoint-up($breakpoint, $breakpoints) {
+            // Provide basic `.col-{bp}` classes for equal-width flexbox columns
+            .col#{$infix} {
+                flex: 1 0 0; // Flexbugs #4: https://github.com/philipwalton/flexbugs#flexbug-4
+            }
+
+            .row-cols#{$infix}-auto > * {
+                @include make-col-auto();
+            }
+
+            @if $grid-row-columns > 0 {
+                @for $i from 1 through $grid-row-columns {
+                    .row-cols#{$infix}-#{$i} {
+                        @include row-cols($i);
+                    }
+                }
+            }
+
+            .col#{$infix}-auto {
+                @include make-col-auto();
+            }
+
+            @if $grid-columns-xs > 0 {
+                @for $i from 1 through $grid-columns-xs {
+                    .col#{$infix}-#{$i} {
+                        @include make-col($i, $grid-columns-xs);
+                    }
+                }
+
+                // `$grid-columns-xs - 1` because offsetting by the width of an entire row isn't possible
+                @for $i from 0 through ($grid-columns-xs - 1) {
+                    @if not($infix == '' and $i == 0) {
+                        // Avoid emitting useless .offset-0
+                        .offset#{$infix}-#{$i} {
+                            @include make-col-offset($i, $grid-columns-xs);
+                        }
+                    }
+                }
+            }
+
+            // Gutters
+            //
+            // Make use of `.g-*`, `.gx-*` or `.gy-*` utilities to change spacing between the columns.
+            @each $key, $value in $gutters {
+                .g#{$infix}-#{$key},
+                .gx#{$infix}-#{$key} {
+                    --#{$variable-prefix}gutter-x: #{$value};
+                }
+
+                .g#{$infix}-#{$key},
+                .gy#{$infix}-#{$key} {
+                    --#{$variable-prefix}gutter-y: #{$value};
+                }
+            }
+        }
+    }
+    @media (min-width: $tablet) {
+        @each $breakpoint in map-keys($breakpoints) {
+            $infix: breakpoint-infix($breakpoint, $breakpoints);
+
+            @include media-breakpoint-up($breakpoint, $breakpoints) {
+                // Provide basic `.col-{bp}` classes for equal-width flexbox columns
+                .col#{$infix} {
+                    flex: 1 0 0%; // Flexbugs #4: https://github.com/philipwalton/flexbugs#flexbug-4
+                }
+
+                .row-cols#{$infix}-auto > * {
+                    @include make-col-auto();
+                }
+
+                @if $grid-row-columns > 0 {
+                    @for $i from 1 through $grid-row-columns {
+                        .row-cols#{$infix}-#{$i} {
+                            @include row-cols($i);
+                        }
+                    }
+                }
+
+                .col#{$infix}-auto {
+                    @include make-col-auto();
+                }
+
+                @if $grid-columns-sm > 0 {
+                    @for $i from 1 through $grid-columns-sm {
+                        .col#{$infix}-#{$i} {
+                            @include make-col($i, $grid-columns-sm);
+                        }
+                    }
+
+                    // `$grid-columns-sm - 1` because offsetting by the width of an entire row isn't possible
+                    @for $i from 0 through ($grid-columns-sm - 1) {
+                        @if not($infix == '' and $i == 0) {
+                            // Avoid emitting useless .offset-0
+                            .offset#{$infix}-#{$i} {
+                                @include make-col-offset($i, $grid-columns-sm);
+                            }
+                        }
+                    }
+                }
+
+                // Gutters
+                //
+                // Make use of `.g-*`, `.gx-*` or `.gy-*` utilities to change spacing between the columns.
+                @each $key, $value in $gutters {
+                    .g#{$infix}-#{$key},
+                    .gx#{$infix}-#{$key} {
+                        --#{$variable-prefix}gutter-x: #{$value};
+                    }
+
+                    .g#{$infix}-#{$key},
+                    .gy#{$infix}-#{$key} {
+                        --#{$variable-prefix}gutter-y: #{$value};
+                    }
+                }
+            }
+        }
+    }
+}

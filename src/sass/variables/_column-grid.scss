@@ -1,0 +1,23 @@
+@import "../../../node_modules/bootstrap/scss/functions";
+@import "../../../node_modules/bootstrap/scss/variables";
+@import "../../../node_modules/bootstrap/scss/mixins";
+
+$grid-breakpoints: (
+    xs: 360px,
+    lg: 1170px,
+);
+
+$container-max-widths: (
+    xs: calc(100% - 32px),
+    lg: 1170px,
+);
+
+$container-padding-x: 0;
+$grid-columns-lg: 12;
+$grid-columns-sm: 6;
+$grid-columns-xs: 2;
+
+@import './_make-grid-columns';
+
+@import "../../../node_modules/bootstrap/scss/grid";
+@import "../../../node_modules/bootstrap/scss/containers";
